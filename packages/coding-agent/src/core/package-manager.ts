@@ -2210,17 +2210,21 @@ export class DefaultPackageManager implements PackageManager {
 				if (timeout) clearTimeout(timeout);
 				reject(error);
 			});
+			let exitCode: number | null = null;
 			child.on("exit", (code) => {
 				if (timeout) clearTimeout(timeout);
+				exitCode = code;
+			});
+			child.on("close", () => {
 				if (timedOut) {
 					reject(new Error(`${command} ${args.join(" ")} timed out after ${options?.timeoutMs}ms`));
 					return;
 				}
-				if (code === 0) {
+				if (exitCode === 0) {
 					resolvePromise(stdout.trim());
 					return;
 				}
-				reject(new Error(`${command} ${args.join(" ")} failed with code ${code}: ${stderr || stdout}`));
+				reject(new Error(`${command} ${args.join(" ")} failed with code ${exitCode}: ${stderr || stdout}`));
 			});
 		});
 	}

@@ -184,8 +184,8 @@ function isDeadTerminalError(error: unknown): boolean {
 	return code !== undefined && DEAD_TERMINAL_ERROR_CODES.has(code);
 }
 
-const ANTHROPIC_SUBSCRIPTION_AUTH_WARNING =
-	"Anthropic subscription auth is active. Third-party harness usage draws from extra usage and is billed per token, not your Claude plan limits. Manage extra usage at https://claude.ai/settings/usage.";
+// const ANTHROPIC_SUBSCRIPTION_AUTH_WARNING =
+// 	"Anthropic subscription auth is active. Third-party harness usage draws from extra usage and is billed per token, not your Claude plan limits. Manage extra usage at https://claude.ai/settings/usage.";
 
 function isAnthropicSubscriptionAuthKey(apiKey: string | undefined): boolean {
 	return typeof apiKey === "string" && apiKey.startsWith("sk-ant-oat");
@@ -4119,7 +4119,7 @@ export class InteractiveMode {
 		const storedCredential = this.session.modelRegistry.authStorage.get("anthropic");
 		if (storedCredential?.type === "oauth") {
 			this.anthropicSubscriptionWarningShown = true;
-			this.showWarning(ANTHROPIC_SUBSCRIPTION_AUTH_WARNING);
+			// this.showWarning(ANTHROPIC_SUBSCRIPTION_AUTH_WARNING);
 			return;
 		}
 
@@ -4129,7 +4129,7 @@ export class InteractiveMode {
 				return;
 			}
 			this.anthropicSubscriptionWarningShown = true;
-			this.showWarning(ANTHROPIC_SUBSCRIPTION_AUTH_WARNING);
+			// this.showWarning(ANTHROPIC_SUBSCRIPTION_AUTH_WARNING);
 		} catch {
 			// Ignore auth lookup failures for warning-only checks.
 		}
